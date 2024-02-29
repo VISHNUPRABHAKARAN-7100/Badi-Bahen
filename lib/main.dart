@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
+import 'advisory/controller/advisory_controller.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -25,6 +27,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (context) => BottomNavScreenProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => AdvisoryController(),
         )
       ],
       child: MaterialApp(

@@ -1,5 +1,9 @@
+import 'package:badi_bahen/advisory/controller/advisory_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:dotted_border/dotted_border.dart';
 
 class Advisory extends StatelessWidget {
   const Advisory({super.key});
@@ -68,7 +72,69 @@ class Advisory extends StatelessWidget {
                       textAlign: TextAlign.center,
                     ),
                   ),
-                )
+                ),
+                Consumer<AdvisoryController>(
+                  builder: (context, snapShot, child) => Container(
+                    margin: const EdgeInsets.only(top: 30),
+                    width: deviceScreenSize.width * 0.35,
+                    height: deviceScreenSize.width * 0.25,
+                    child: DottedBorder(
+                      padding: const EdgeInsets.all(8),
+                      borderType: BorderType.Rect,
+                      radius: const Radius.circular(10),
+                      dashPattern: const [6, 2],
+                      strokeWidth: 2,
+                      color: Colors.red,
+                      child: Center(
+                        child: SizedBox(
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    '${snapShot.timerData.months}',
+                                    style: GoogleFonts.wallpoet(
+                                      fontSize: 40,
+                                      color: Colors.red,
+                                    ),
+                                  ),
+                                  const Text(
+                                    'Month',
+                                    style: TextStyle(
+                                      color: Colors.red,
+                                    ),
+                                  )
+                                ],
+                              ),
+                              Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    ': ${snapShot.timerData.days}',
+                                    style: GoogleFonts.wallpoet(
+                                      color: Colors.red,
+                                      fontSize: 40,
+                                    ),
+                                  ),
+                                  const Text(
+                                    'Days',
+                                    style: TextStyle(
+                                      color: Colors.red,
+                                    ),
+                                  )
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),

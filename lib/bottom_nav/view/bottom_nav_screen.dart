@@ -1,9 +1,10 @@
+import 'package:badi_bahen/financial_plan/view/financial_plan.dart';
+import 'package:badi_bahen/monitoring/view/monitoring.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../advisory/view/advisory.dart';
 import '../../choose_profession/view/choose_profession.dart';
 import '../controller/bottom_nav_controller.dart';
-import '../screens/temp_screens.dart';
 
 class BottomNavScreen extends StatelessWidget {
   BottomNavScreen({super.key});
@@ -16,9 +17,9 @@ class BottomNavScreen extends StatelessWidget {
   // Page lists.
   final pages = [
     const ChooseProfession(),
-    const Page2(),
+    const FinancialPlan(),
     const Advisory(),
-    const Page3(),
+    const Monitoring(),
   ];
 
   @override
