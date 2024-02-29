@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
           create: (context) => BottomNavScreenProvider(),
         )
       ],
-      child: const MaterialApp(
+      child: MaterialApp(
         debugShowCheckedModeBanner: false,
         home: BottomNavScreen(),
       ),

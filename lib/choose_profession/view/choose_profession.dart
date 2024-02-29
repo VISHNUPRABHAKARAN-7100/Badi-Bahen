@@ -7,20 +7,26 @@ class ChooseProfession extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Variable to find the size of the device screen.
-    final screenSize = MediaQuery.sizeOf(context);
+    final deviceScreenSize = MediaQuery.sizeOf(context);
     return Column(
       children: [
         // AppBar
         _buildAppBar(),
 
         // Grid view for show the cards.
-        _chooseProfessionGrid(screenSize, context),
+        _chooseProfessionGrid(
+          deviceScreenSize: deviceScreenSize,
+          context: context,
+        ),
       ],
     );
   }
 
   // GrideView to show the cards of the professional types.
-  Expanded _chooseProfessionGrid(Size screenSize, BuildContext context) {
+  Expanded _chooseProfessionGrid({
+    required Size deviceScreenSize,
+    required BuildContext context,
+  }) {
     return Expanded(
       child: SingleChildScrollView(
         child: Column(
@@ -52,7 +58,7 @@ class ChooseProfession extends StatelessWidget {
                       children: List.generate(
                         category.length,
                         (index) => _professionCard(
-                          screenSize: screenSize,
+                          deviceScreenSize: deviceScreenSize,
                           context: context,
                           categoryName: category[index].categoryName,
                           iconData: category[index].iconData,
@@ -119,7 +125,7 @@ class ChooseProfession extends StatelessWidget {
 
   // The below container is for showing all the professional cards.
   Container _professionCard({
-    required Size screenSize,
+    required Size deviceScreenSize,
     required BuildContext context,
     required IconData iconData,
     required String categoryName,
@@ -143,27 +149,27 @@ class ChooseProfession extends StatelessWidget {
             // Outer circle.
             child: CircleAvatar(
               backgroundColor: Colors.white,
-              radius: screenSize.width * 0.05,
+              radius: deviceScreenSize.width * 0.05,
 
               // Inner circle.
               child: CircleAvatar(
                 backgroundColor: Colors.grey.shade300,
-                radius: screenSize.width * 0.045,
+                radius: deviceScreenSize.width * 0.045,
                 child: Icon(
                   iconData,
-                  size: screenSize.width * 0.05,
+                  size: deviceScreenSize.width * 0.05,
                 ),
               ),
             ),
           ),
           SizedBox(
-            height: screenSize.height * 0.01,
+            height: deviceScreenSize.height * 0.01,
           ),
           Text(
             categoryName,
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontSize: screenSize.width * 0.025,
+              fontSize: deviceScreenSize.width * 0.025,
             ),
           )
         ],

@@ -1,104 +1,202 @@
-import 'package:badi_bahen/advisory/view/advisory.dart';
-import 'package:badi_bahen/choose_profession/view/choose_profession.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../advisory/view/advisory.dart';
+import '../../choose_profession/view/choose_profession.dart';
 import '../controller/bottom_nav_controller.dart';
 import '../screens/temp_screens.dart';
 
 class BottomNavScreen extends StatelessWidget {
-  const BottomNavScreen({super.key});
+  BottomNavScreen({super.key});
+
+  final TextStyle labelStyle = const TextStyle(
+    fontSize: 11,
+    fontWeight: FontWeight.w500,
+  );
+
+  // Page lists.
+  final pages = [
+    const ChooseProfession(),
+    const Page2(),
+    const Advisory(),
+    const Page3(),
+  ];
 
   @override
   Widget build(BuildContext context) {
-    final pages = [
-      const ChooseProfession(),
-      const Page2(),
-      const Page3(),
-      const Page3(),
-      const Advisory(),
-    ];
-
     return Consumer<BottomNavScreenProvider>(
-      builder: (context, snapshot, child) => Scaffold(
-        body: pages[snapshot.pageIndex],
-        bottomNavigationBar: BottomAppBar(
-          height: 60,
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              // Home screen.
-              _buildBottomNavigationBarItem(
-                bottomNavIcon: Icons.home,
-                pageIndex: 0,
-                context: context,
-                pageIndexProvider: snapshot,
+      builder: (context, snapShot, child) => Scaffold(
+        body: pages[snapShot.pageIndex],
+        bottomNavigationBar: Stack(
+          alignment: AlignmentDirectional.center,
+          children: [
+            const SizedBox(
+              height: 95,
+            ),
+            Positioned(
+              bottom: 0,
+              child: Container(
+                width: MediaQuery.sizeOf(context).width,
+                color: Colors.white,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          // Bottom navigation icon for Home Screen.
+                          _bottomNavIcon(
+                            bottomNavScreenProvider: snapShot,
+                            index: 0,
+                            navIconTitle: 'HOME',
+                          ),
+
+                          // Bottom navigation icon for Financial Plan Screen.
+                          _bottomNavIcon(
+                            bottomNavScreenProvider: snapShot,
+                            index: 1,
+                            navIconTitle: 'FINANCIAL PLAN',
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(width: MediaQuery.sizeOf(context).width * .2),
+                    Expanded(
+                      child: Row(
+                        children: [
+                          // Bottom navigation icon for Advisory Screen.
+                          _bottomNavIcon(
+                            bottomNavScreenProvider: snapShot,
+                            index: 2,
+                            navIconTitle: 'ADVISORY',
+                          ),
+
+                          // Bottom navigation icon for Monitoring Screen.
+                          _bottomNavIcon(
+                            bottomNavScreenProvider: snapShot,
+                            index: 3,
+                            navIconTitle: 'MONITORING',
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              // Financial plan screen.
-              _buildBottomNavigationBarItem(
-                bottomNavIcon: Icons.search,
-                pageIndex: 1,
-                context: context,
-                pageIndexProvider: snapshot,
-              ),
-              // Transaction screen.
-              _buildBottomNavigationBarItem(
-                bottomNavIcon: Icons.notifications,
-                pageIndex: 2,
-                context: context,
-                pageIndexProvider: snapshot,
-              ),
-              // Advisory screen.
-              _buildBottomNavigationBarItem(
-                bottomNavIcon: Icons.account_circle,
-                pageIndex: 3,
-                context: context,
-                pageIndexProvider: snapshot,
-              ),
-              // Monitory screen.
-              _buildBottomNavigationBarItem(
-                bottomNavIcon: Icons.account_circle,
-                pageIndex: 4,
-                context: context,
-                pageIndexProvider: snapshot,
-              ),
-            ],
-          ),
+            ),
+
+            // Floating action button on the bottom center of the screen.us
+            _buildFAB()
+          ],
         ),
       ),
     );
   }
 
-  Widget _buildBottomNavigationBarItem({
-    required BottomNavScreenProvider pageIndexProvider,
-    required IconData bottomNavIcon,
-    required int pageIndex,
-    required BuildContext context,
+  Positioned _buildFAB() {
+    return Positioned(
+      top: 0,
+      child: Column(
+        children: [
+          Stack(
+            alignment: AlignmentDirectional.center,
+            children: [
+              // Border for the FAB.
+              Container(
+                height: 70,
+                width: 70,
+                decoration: const BoxDecoration(
+                  color: Colors.transparent,
+                  border: Border(
+                    top: BorderSide(color: Colors.red, width: 5),
+                    left: BorderSide(color: Colors.red, width: 2),
+                    right: BorderSide(color: Colors.red, width: 2),
+                  ),
+                  shape: BoxShape.circle,
+                ),
+              ),
+              // Center yellow color button.
+              Positioned(
+                bottom: 0,
+                child: Container(
+                  height: 65,
+                  width: 65,
+                  alignment: Alignment.center,
+                  decoration: const BoxDecoration(
+                    color: Color(0x000A0707),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Container(
+                    height: 60,
+                    width: 60,
+                    alignment: Alignment.center,
+                    decoration: const BoxDecoration(
+                      color: Colors.amber,
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(Icons.add),
+                  ),
+                ),
+              )
+            ],
+          ),
+          const SizedBox(
+            height: 2,
+          ),
+          Text("TRANSACTIONS", style: labelStyle),
+        ],
+      ),
+    );
+  }
+
+  // Below widget is for each bottom navigation item.
+  IconButton _bottomNavIcon({
+    required BottomNavScreenProvider bottomNavScreenProvider,
+    required int index,
+    required String navIconTitle,
   }) {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 320),
-      decoration: BoxDecoration(
-        color: Colors.grey.shade300,
-        shape: BoxShape.circle,
-        gradient: pageIndexProvider.pageIndex == pageIndex
-            ? const LinearGradient(
-                begin: Alignment.centerLeft,
+    return IconButton(
+      splashColor: Colors.transparent,
+      highlightColor: Colors.transparent,
+      onPressed: () => bottomNavScreenProvider.setPageIndex(index),
+      icon: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 320),
+            padding: const EdgeInsets.all(5),
+            decoration: BoxDecoration(
+              color: bottomNavScreenProvider.pageIndex == index
+                  ? Colors.grey.shade200
+                  : Colors.grey.withOpacity(.1),
+              shape: BoxShape.circle,
+              gradient: const LinearGradient(
                 end: Alignment.centerRight,
                 colors: [
-                  Color(0xffB32C43),
-                  Color(0xffFC9B12),
+                  Colors.red,
+                  Colors.amber,
                 ],
-              )
-            : null,
-      ),
-      child: IconButton(
-        enableFeedback: false,
-        splashColor: Colors.transparent,
-        highlightColor: Colors.transparent,
-        onPressed: () {
-          pageIndexProvider.setPageIndex(pageIndex);
-        },
-        icon: Icon(bottomNavIcon),
+              ),
+            ),
+            child: Icon(
+              Icons.home,
+              color: bottomNavScreenProvider.pageIndex == index
+                  ? Colors.white
+                  : Colors.black,
+            ),
+          ),
+          const SizedBox(
+            height: 2,
+          ),
+          Text(
+            navIconTitle,
+            style: labelStyle.copyWith(
+              color: bottomNavScreenProvider.pageIndex == index
+                  ? Colors.red
+                  : Colors.black,
+            ),
+          ),
+        ],
       ),
     );
   }

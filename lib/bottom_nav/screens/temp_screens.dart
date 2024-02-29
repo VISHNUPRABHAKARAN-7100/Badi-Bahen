@@ -27,13 +27,8 @@ class Page2 extends StatelessWidget {
   Widget build(BuildContext context) {
     log('Page 2 build');
 
-    return Center(
-      child: Center(
-        child: ElevatedButton(
-          onPressed: () {},
-          child: const Text('Next'),
-        ),
-      ),
+    return const Center(
+      child: Center(),
     );
   }
 }
